@@ -1,10 +1,10 @@
 cmake_minimum_required(VERSION 3.27)
 
-project(cmake_sdl)
+project(friendlyware_brickbreaker)
 
-set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin")
-set(CMAKE_LIBRARY_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin")
-set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin")
+#set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin")
+#set(CMAKE_LIBRARY_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin")
+#set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin")
 
 
 # Download CPM
@@ -30,9 +30,6 @@ CPMAddPackage("gh:libsdl-org/SDL#main")
 CPMAddPackage("gh:libsdl-org/SDL_ttf#main")
 CPMAddPackage("gh:libsdl-org/SDL_Mixer#main")
 
-
-
-
 # CPMAddPackage(
 #   NAME SDL3_mixer
 #   GIT_TAG main
@@ -54,18 +51,19 @@ CPMAddPackage("gh:libsdl-org/SDL_Mixer#main")
 
 add_executable(${PROJECT_NAME})
 target_sources(${PROJECT_NAME} PRIVATE src/main.cpp)
-target_compile_features(${PROJECT_NAME} PRIVATE cxx_std_23)
+#target_compile_features(${PROJECT_NAME} PRIVATE cxx_std_23)
 target_link_libraries(${PROJECT_NAME} PRIVATE SDL3::SDL3 SDL3_ttf::SDL3_ttf SDL3_mixer::SDL3_mixer)
+add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
+  COMMAND ${CMAKE_COMMAND} -E copy -t $<TARGET_FILE_DIR:${PROJECT_NAME}> $<TARGET_RUNTIME_DLLS:${PROJECT_NAME}>
+  COMMAND_EXPAND_LISTS
+)
 
-# Testing
-CPMAddPackage("gh:catchorg/Catch2@3.4.0")
-list(APPEND CMAKE_MODULE_PATH ${Catch2_SOURCE_DIR}/extras)
-include(CTest)
-include(Catch)
-enable_testing()
-add_executable(tests tests/test001.cpp)
-target_link_libraries(tests PRIVATE Catch2::Catch2WithMain)
-catch_discover_tests(tests)
+
+#enable_testing()
+add_subdirectory(tests)
+
+
+
 
 
 

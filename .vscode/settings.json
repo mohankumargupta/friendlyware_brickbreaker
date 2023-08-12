@@ -1,6 +1,11 @@
 {
+    "cmake.debugConfig": {
+        "cwd": "${workspaceFolder}"
+    },
+    "cmake.generator": "Ninja",
     "git.postCommitCommand": "push",
     "files.associations": {
         "cstdint": "cpp"
     }
+
 }
