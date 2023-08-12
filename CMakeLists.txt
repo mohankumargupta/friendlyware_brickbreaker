@@ -58,8 +58,7 @@ add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
   COMMAND_EXPAND_LISTS
 )
 
-
-#enable_testing()
+enable_testing()
 add_subdirectory(tests)
 
 
